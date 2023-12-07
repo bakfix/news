@@ -1,8 +1,5 @@
 from django.db import models
 from datetime import datetime
-from PIL import Image
-from io import BytesIO
-from django.core.files.uploadedfile import InMemoryUploadedFile
 
 class News(models.Model):
     title = models.CharField(max_length=255)
