@@ -1,5 +1,8 @@
 from django.db import models
 from datetime import datetime
+from PIL import Image, ImageOps
+from io import BytesIO
+from django.core.files.base import ContentFile
 
 class News(models.Model):
     title = models.CharField(max_length=255)
@@ -9,12 +12,36 @@ class News(models.Model):
     author = models.CharField(max_length=100)
     publication_date = models.DateTimeField(default=datetime.now)
 
-    def save(self, *args, **kwargs):
-        if not self.preview_image:
-            self.preview_image = self.generate_preview_image()
-        super().save(*args, **kwargs)
+    def create_thumbnail(self):
+        img = Image.open(self.main_image.path)
+        img = ImageOps.exif_transpose(img)
+        img = img.convert('RGB')
 
-    def generate_preview_image(self):
-        # Реализуйте генерацию превью-изображения здесь (пример: использование PIL)
-        # Обратитесь к документации для работы с изображениями в Django
-        pass
+        # Определение новых размеров
+        base_width = 200
+        w_percent = (base_width / float(img.size[0]))
+        h_size = int((float(img.size[1]) * float(w_percent)))
+
+        # Создание превью
+        thumbnail = img.resize((base_width, h_size), Image.LANCZOS)
+
+        # Сохранение превью в ContentFile
+        thumbnail_io = BytesIO()
+        thumbnail.save(thumbnail_io, format='JPEG')
+
+        # Создание ContentFile и сохранение его в preview_image
+        thumbnail_file = ContentFile(thumbnail_io.getvalue())
+        self.preview_image.save(f"preview_{self.main_image.name}", thumbnail_file, save=False)
+
+        # Закрытие буфера
+        thumbnail_io.close()
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        if not self.preview_image:
+            # Вызов метода создания превью, если preview_image не установлено
+            self.create_thumbnail()
+            self.save()  # Повторное сохранение для обновления preview_image
+
+    def __str__(self):
+        return self.title
