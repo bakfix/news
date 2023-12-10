@@ -3,6 +3,8 @@ from datetime import datetime
 from PIL import Image, ImageOps
 from io import BytesIO
 from django.core.files.base import ContentFile
+from django.core.validators import MinValueValidator, MaxValueValidator
+
 
 class News(models.Model):
     title = models.CharField(max_length=255)
@@ -45,3 +47,4 @@ class News(models.Model):
 
     def __str__(self):
         return self.title
+
