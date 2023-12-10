@@ -4,6 +4,7 @@ from PIL import Image, ImageOps
 from io import BytesIO
 from django.core.files.base import ContentFile
 from django.core.validators import MinValueValidator, MaxValueValidator
+from django_admin_geomap import GeoItem
 
 
 class News(models.Model):
@@ -47,4 +48,22 @@ class News(models.Model):
 
     def __str__(self):
         return self.title
+
+
+# places/models.py
+class Place(models.Model, GeoItem):
+    name = models.CharField(max_length=255)
+    latitude = models.FloatField()
+    longitude = models.FloatField()
+    rating = models.FloatField(default=0.0, validators=[MinValueValidator(0), MaxValueValidator(25)])
+    @property
+    def geomap_longitude(self):
+        return str(self.longitude)
+
+    @property
+    def geomap_latitude(self):
+        return str(self.latitude)
+    def __str__(self):
+        return self.name
+
 
