@@ -1,14 +1,11 @@
-# import_places.py
 import os
 import sys
 import django
 import pandas as pd
 from decimal import Decimal
 
-# Добавляем путь к корневой директории проекта в sys.path
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-# Устанавливаем DJANGO_SETTINGS_MODULE
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "news_project.settings")
 django.setup()
 
