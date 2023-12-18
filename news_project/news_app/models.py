@@ -15,7 +15,6 @@ class News(models.Model):
     author = models.CharField(max_length=100)
     publication_date = models.DateTimeField(default=datetime.now)
 
-
     def create_thumbnail(self):
         img = Image.open(self.main_image.path)
         img = ImageOps.exif_transpose(img)
@@ -46,7 +45,6 @@ class News(models.Model):
             # Вызов метода создания превью, если preview_image не установлено
             self.create_thumbnail()
             self.save()  # Повторное сохранение для обновления preview_image
-
 
     def __str__(self):
         return self.title
