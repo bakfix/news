@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <!-- Подключаем стили Bootstrap для приятного внешнего вида -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body, h1, html {
+            padding: 0;
+            margin: 0;
+            font-family: Montserrat, sans-serif;
+            overflow: hidden;
+        }
+
+        #app {
+            height: 100vh;
+            width: 100%;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: url("https://lh3.googleusercontent.com/pw/AP1GczMUtCtX8f12DQJBjUSe01_6c6R-FvZLD3AlG1-0p3gsUJOrsJHMu-O6oJ7kNK0IF5bEodeQUmWbwoKLilV0_Fjc5etF8kLscIDEEWc3TmhpWsC4nKTBMuvYnixISPfYM0hcB5pihkqfgGYsZJy_GivrE2aESPgvGD8-JnnYoj3O3QSl4ohsN080crFpobLOLQ6e-_j6uKtJAly4l5MNjLJYt6NoMOFsSo_rN9LRusiM-RHVCd6yeJTLY-IUbJ6RGDE5eDUvnTz9yLYePNaHxw3jW2Ak804z1knMAtYukqMgd-weYByQKIK9eZN-fyrwvEJqJMDqlnbQT491Nb2vYXeRn_3Lk6IjXSnTIa_AUIeLuakfgcATvrQ_onzIM4jd2-UwS6BOb0K_ZkCzABnKoDXvpAp_moSWsbSOG_rDcggLhwQa1QmD-haU7DYMBSQYcAJCwlM4XIWcB-mY78GpLuqgXJBxYhOpUqPUDuv_xOgWLEUGWSa01wBh5Sn2OTRfAuLNLo3xKCbvZKC0wF1TIR3bAOCizI3lIzqvakEQBn-y1uoGRqELwxd47BeXhBPds1xxWRXdCxYhCmVnXyySDkSBuH40F6UlDm-mYWgvx8y3vfY6oWIDmb5pk7JIV4BI4nq_7CPp7WwoBE-JkBGJfVqqJfzrZCtVr4IdWWTyGb1GR31ymGqkFe1-RLhGIEqSCtT0tO4DCZfXf7QXeb_6wI7uHGJGlgSBFJ2z5B9RMqNdHjgjdgpm-Dc0HEh7nNvgNFRQQto0yuodKxC-rHp9YIDLLkqofOXY1y_xNUJnm75V92mvVNL9c2tvD9trJxTcy0G39XX-Zj9UhqhOdLagR5ZBwjAaCAppSRDXzQ3RK_M_v3OVB2nOUo0S-8EvTYvEgwIerNzLUkg1KWr4L8hJSENKkjbGFrimT39qS8YfSaz4MUD7oSRGzk8rGJqrbuVEPN0rB8ConYZ36EyquIXG7asyG4bA5im8pNoOKvDVwG7s7I760paTZ_f54UOI_6hXoTGhhZtXDQpFbB6Ga_uTSyHYpifSABImyAsbKgf8uCko7LDtly0ZmdQ7QE_QiA=w1824-h1026-s-no-gm?authuser=0");
+            background-size: cover;
+            background-position: center;
+            z-index: 1;
+
+        }
+
+        .container {
+            margin-top: 50px;
+        }
+
+.card {
+    content: "";
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* черный фон с прозрачностью */
+    z-index: 1; /* чтобы убедиться, что фон находится позади изображения */
+}
+
+        .card-header {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* черный фон с прозрачностью */
+    z-index: 1; /* чтобы убедиться, что фон находится позади изображения */
+        }
+
+.card-body{
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: transparent;
+    background-color: rgba(0, 0, 0, 0.5); /* черный фон с прозрачностью */
+    z-index: 1; /* чтобы убедиться, что фон находится позади изображения */
+        }
+
+        .card-title {
+            font-size: 24px;
+        }
+
+        .form-control {
+
+            background-color: #444;
+            border-color: #666;
+            color: #000;
+        }
+
+        .btn-primary {
+
+            background-color: #191970;
+            border-color: #000;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
+
+        .btn-secondary {
+            background-color: #6c757d;
+            border-color: #000;
+        }
+
+        .btn-secondary:hover {
+            background-color: #5a6268;
+            border-color: #545b62;
+        }
+
+        .logo-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .logo {
+            max-width: 200px;
+        }
+
+        /* Добавленные стили из вашего CSS */
+        .sub {
+            color: #64dcdc;
+            letter-spacing: 2em;
+        }
+
+        .glitch {
+            position: relative;
+            color: #fff;
+            font-size: 4em;
+            letter-spacing: .5em;
+            animation: glitch-skew 1s infinite linear alternate-reverse;
+        }
+
+        .glitch::before {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            left: 2px;
+            text-shadow: -2px 0 #ff00c1;
+            clip: rect(44px, 450px, 56px, 0);
+            animation: glitch-anim 5s infinite linear alternate-reverse;
+        }
+
+        .glitch::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            left: -2px;
+            text-shadow: -2px 0 #00fff9, 2px 2px #ff00c1;
+            animation: glitch-anim2 1s infinite linear alternate-reverse;
+        }
+
+        /* Добавленные стили для картинки */
+.logo-form-container::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1; /* чтобы убедиться, что фон находится позади изображения */
+}
+        body {
+    background-image: url("https://lh3.googleusercontent.com/pw/AP1GczPvRnB8N0fqXKCwOm3kYZ4rybgTKBuNzvdEfjXZZL8wc13_4ARJ5P2CKPTsNLw23Aa2tCbOIyjxERXXuSMPvrwHWuIVv129HMePQR5nYOzo-_JdZEG_DYB_CkXdKNQeC_hwUkgI2odVyE1b-XjMxWXNw_D06kjxPTPY2EpL86FmxZFd51tjWYsVpCL4gXubZiQNNLt_mq1IWbPsMKy0PfsFOfrGiT7yEKbMP3IeM1X0nAvfw1-yIHeQwV5hwTlVgKdc6eFllzl__o3t_bIFiL_E3xrTBihf6KL3znkgwqa_0pVk0BwjtUVR8XqvCoFtI_nPBbXAaBtMSzeyfLjxohvZ2zp_RtMLYIgJeiNSIkT_be_w_iZTFSq3FBY8D-1EaEw0afKHclJR8mQnBX2Dy_9_DgqfOMOt4gA4uC5Md63YxXm3amkULM7wtv_EaZ-v1OM_CyYWQKnPjUTtbkm8B9CAyIQaaK04d8l7pCzLaNPoJQEcPaCNz8EbLvdY9a1HjA2gDaSGGWtZUJf6-jprda2pC79tAfS8blUitUTqrK_kg3wnWhLFbPx1FT5hH9CKaLx3uBjN9D6NhkpFnqLjpoG_lFWggqDY3yYeoLcgCZp8TmrgfbQXFCiGXZxOjN13Kr4HNiHfEo4OJG2ZRz4Ud9KAyUQotC7U2XQUGThOMLhDQ_gSNvffplvrkeT4_IQo3XOyMKvb-Qf389dXYqq10cF6uil_hVdo5bgarUNbkAuFX1x9izMRa-p1UX5choZ4Qe6FqaDF2YPWj6bIAjK2Xid0pPSWFXuTq9EzqFO0PCZEsneyfYl_xE4h3IiXMJVwkL8bcWivJGDrxUfUSPLhEXVOKBkq7obj_2wYzFVABstAdLkDwqta7YhqRX8Ip26zmtnqih3NG3qWKoIDHXMzvlVahOxteVtzR7MQ55FEA1I9dgeDCUwc-7agi8IfMMfE6sRjd314mp3j4w2eLKWsmqFChM5Ov0O0OA=w1824-h1026-s-no-gm?authuser=0"); /* Замените ссылку на свою картинку */
+    background-size: cover; /* Задает масштабирование изображения по размерам контейнера */
+    background-position: center; /* Выравнивание изображения по центру */
+    color: #fff;
+    font-family: 'Arial', sans-serif;
+}
+
+
+        /* Установка ширины для формы */
+    .form-width {
+        width: 130%; /* Можете изменить на нужную вам ширину */
+        max-width: 600px; /* Ограничиваем максимальную ширину формы */
+        margin: 0 auto; /* Выравниваем форму по центру */
+    }
+.visually-hidden {
+    position: absolute !important;
+    clip: rect(1px, 1px, 1px, 1px);
+    font-family: Arial, sans-serif; /* Шрифт Arial или его аналог */
+    padding: 0 !important;
+    border: 0 !important;
+    height: 1px !important;
+    width: 1px !important;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.form-control {
+    position: relative;
+    text-align: center; /* Добавляем отступ слева для текста */
+    background-color: rgba(0, 0, 0, 0.5); /* черный фон с прозрачностью */
+    border-color: #666; /* Цвет рамки */
+    color: #fff; /* Белый текст */
+
+}
+
+.form-control::placeholder {
+    color: #808080; /* Делаем текст заглушки прозрачным */
+}
+
+
+.form-control:focus + .form-label,
+.form-control:not(:placeholder-shown) + .form-label {
+    opacity: 1;
+    transform: translateY(-50%);
+    top: 10%;
+    left: 20px;
+    color: #6c757d; /* Цвет текста надписи при активном поле ввода */
+    transition: opacity 0.2s, transform 0.2s, top 0.2s;
+}
+
+.form-label {
+    position: absolute;
+    pointer-events: none;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0.6; /* Прозрачность текста надписи */
+    transition: opacity 0.2s, transform 0.2s, top 0.2s;
+}
+        .btn-login {
+    margin: 0 auto; /* Помещаем кнопку вправо */
+}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="app">
+            <div class="logo-form-container">
+
+                <div class="row justify-content-center">
+                    <div class="col-md-10 form-width">
+                        <div class="card">
+                            <div class="card-header text-center">
+                                                <img src="https://lh3.googleusercontent.com/pw/AP1GczP1U8uYJBMyb4Ba5Xz7QdrIDIUmqYQPJPme9SONbLmD8gkLURiYSlu-JN938QYVUw0Oj-Ll6KC_Nn1LH4WBpWu2RD8SYGW4s7fIt7gI3O--e-Q9jF989I5NQB1PG9ky2iOYLaA_hHQh2d5e-fkPVRzIDSpnY67oXbWvMahcUGcQnP8W4kstB52194RDV-OD8fQ796q0p1W7TEeaew9OgtvH2srPSO5jMuvoMGJPVvn_3_bpXVGd9UE1GLN3uCh6xZCgRRJWvYY0hZumoPfU_DOKzDSxrnRpNuheeKwppo1n48TitKQfq2Dun9k61h8v96f-hp5bWdlGERRlYgDkXdubV14-C0lQ_79PfOjTH38aBZzmJyJkrfRSPam48G72XT48Lx1S9b5xgpWVnChplibm9HhmJ5esC-BmyVZMeJ8sYT8Fgb7tlHaQCQmBbzjq8XS3Cf-ZW1WehXhDwmiILpAwGwOC4TnimGPL5cq8XhuAvWm4ENLfMkREumg5cp5LvkRD1IEBxiQwygisMmYpijL6qWkmOJ61AmKKWUkcesrQW64BnScCL5P8w1UrG_9ZI1hhvNhGi91f2Whw-nteeA0N4-pue0VRBKsxirkRRTnednsk_ekOMIu5ycxSoAxLXfwXdh6ZoOlDLuTW1UlFnOKcN7KvTpwkjaqM7ExQM-lxiNyyedc7a-9GeMA48gCIikH6CDEG6mC9lINroOjjoF-cuHctQ_zoVh_YZiUKnEyzDyFjXw1Ne6kQt9S7Lnn-68Leq6Jzj_V-zW8sRIfY1gCNmHkQeci5YrAmy5IdqFC1OnPEflPtK-oZIPvVzU136mSzwsb96d-DDAI1C5aPx0f6C_98hLD8gB_EY6bxcYKzi_gtWaStkXiqKZWoMIwM8r3hv9SthAKcRGnSwM7xUwEht2wzuvlZKq08IFsLwM3J_BWVsJXv3PcMPH2cuhpCsknnu5VhlTOfhwLFx9xX_iLaoxdR9qApOw=w313-h312-no?authuser=0" width="300" height="300" alt="Логотип" class="img-fluid mb-3">
+                            </div>
+                            <div class="card-body ">
+                                <form method="post" >
+                                    {% csrf_token %}
+                            {{ form.as_p }}
+                            <button type="submit" class="btn-login btn btn-primary  btn-block btn-login mb-3">Войти</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

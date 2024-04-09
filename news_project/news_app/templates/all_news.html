@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All News</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        h1 {
+            text-align: center;
+            margin-top: 30px;
+            color: #333;
+        }
+        .news-container {
+            position: relative; /* Позволяет позиционировать кнопку относительно контейнера */
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            padding: 20px;
+        }
+        .news-item {
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border-radius: 5px;
+            margin: 15px;
+            padding: 20px;
+            width: 800px;
+        }
+        h2 {
+            color: #333;
+            font-size: 1.5em;
+            margin-bottom: 10px;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        p {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+        .author {
+            font-weight: bold;
+        }
+        .publication-date {
+            color: #888;
+            font-size: 0.9em;
+        }
+        /* Стили для кнопки */
+        .subscribe-button {
+            position: absolute; /* Позиционируем кнопку абсолютно */
+            top: 20px; /* Отступ сверху */
+            right: 20px; /* Отступ справа */
+            padding: 10px 20px;
+            background-color: #007bff; /* Цвет кнопки */
+            color: #fff; /* Цвет текста */
+            text-decoration: none; /* Убираем подчеркивание */
+            border-radius: 5px; /* Закругленные углы */
+            transition: background-color 0.3s; /* Плавный переход цвета при наведении */
+        }
+
+        .subscribe-button:hover {
+            background-color: #0056b3; /* Цвет кнопки при наведении */
+        }
+    </style>
+</head>
+<body>
+    <h1>All News</h1>
+    <div class="news-container">
+        {% for news in all_news %}
+            <div class="news-item">
+                <h2>{{ news.title }}</h2>
+                <img src="{{ news.main_image.url }}" alt="Main Image">
+                {% if news.preview_image %}
+                    <img src="{{ news.preview_image.url }}" alt="Preview Image">
+                {% endif %}
+                <p>{{ news.text }}</p>
+                <p class="author">Author: {{ news.author }}</p>
+                <p class="publication-date">Publication Date: {{ news.publication_date }}</p>
+            </div>
+        {% endfor %}
+        <a href="{% url 'subscribe' %}" class="subscribe-button">Оформить подписку</a>
+    </div>
+</body>
+</html>
