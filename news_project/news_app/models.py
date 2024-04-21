@@ -6,8 +6,19 @@ from django.core.files.base import ContentFile
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django_admin_geomap import GeoItem
 
+class Category(models.Model):
+    name = models.CharField(max_length=50)
 
 class News(models.Model):
+    CATEGORY_CHOICES = [
+        ('Политика', 'Политика'),
+        ('Медицина', 'Медицина'),
+        ('Экономика', 'Экономика'),
+        ('Общество', 'Общество'),
+        ('Культура', 'Культура'),
+        ('Спорт', 'Спорт'),
+    ]
+    category = models.CharField(max_length=100, choices=CATEGORY_CHOICES, default='Категории')
     title = models.CharField(max_length=255)
     main_image = models.ImageField(upload_to='news_images/', default='default_image.jpg')
     preview_image = models.ImageField(upload_to='news_images/previews/', blank=True, null=True)

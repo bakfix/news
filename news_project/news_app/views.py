@@ -6,6 +6,8 @@ from django.views.generic import ListView
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.forms import AuthenticationForm
+from django.shortcuts import render
+from .models import News
 
 class NewsListCreateView(generics.ListCreateAPIView):
     queryset = News.objects.all()
@@ -52,3 +54,16 @@ def subscribe(request):
         # Обработка данных, например, сохранение в базу данных или выполнение других действий
         return render(request, ' registration.html')
     return render(request, 'subscription_form.html')
+
+def all_news_view(request):
+    all_news = News.objects.all()
+    categories = News.objects.values_list('category', flat=True).distinct()  # Получаем список уникальных категорий
+    return render(request, 'all_news.html', {'all_news': all_news, 'categories': categories})
+
+
+def category_filter_view(request, category):
+    print("Выбранная категория:", category)  # Добавим отладочное сообщение
+    news_list = News.objects.filter(category=category)
+    if not news_list:  # Если список новостей пуст
+        print("Список новостей пуст!")
+    return render(request, 'filtered_news.html', {'category': category, 'news_list': news_list})

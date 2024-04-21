@@ -7,17 +7,28 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
+            background-color: #000;
             margin: 0;
             padding: 0;
         }
-        h1 {
+        .menu {
+            background-color: #333;
+            overflow: hidden;
+        }
+        .menu a {
+            float: left;
+            display: block;
+            color: white;
             text-align: center;
-            margin-top: 30px;
-            color: #333;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+        .menu a:hover {
+            background-color: #ddd;
+            color: black;
         }
         .news-container {
-            position: relative; /* Позволяет позиционировать кнопку относительно контейнера */
+            position: relative;
             display: flex;
             flex-wrap: wrap;
             justify-content: space-around;
@@ -31,10 +42,12 @@
             padding: 20px;
             width: 800px;
         }
-        h2 {
-            color: #333;
-            font-size: 1.5em;
+
+        h1 {
+            color: #fff;
+            font-size: 4em;
             margin-bottom: 10px;
+            text-align: center; /* выравнивает текст по центру */
         }
         img {
             max-width: 100%;
@@ -54,40 +67,113 @@
             color: #888;
             font-size: 0.9em;
         }
-        /* Стили для кнопки */
         .subscribe-button {
-            position: absolute; /* Позиционируем кнопку абсолютно */
-            top: 20px; /* Отступ сверху */
-            right: 20px; /* Отступ справа */
+            position: absolute;
+            top: 20px;
+            right: 20px;
             padding: 10px 20px;
-            background-color: #007bff; /* Цвет кнопки */
-            color: #fff; /* Цвет текста */
-            text-decoration: none; /* Убираем подчеркивание */
-            border-radius: 5px; /* Закругленные углы */
-            transition: background-color 0.3s; /* Плавный переход цвета при наведении */
+            background-color: #007bff;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
         }
-
         .subscribe-button:hover {
-            background-color: #0056b3; /* Цвет кнопки при наведении */
+            background-color: #0056b3;
         }
+                /* Добавляем изображения слева и справа */
+        .side-images {
+            position: absolute;
+            top: 0;
+            width: 360px; /* Ширина изображений */
+            height: 40%;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        .left-image {
+    left: 0;
+    top: 50%; /* Регулирует вертикальное положение изображения */
+    transform: translateY(-50%); /* Центрирует изображение по вертикали */
+    background-image: url('/static/main2.png'); /* Путь к изображению слева */
+}
+
+.right-image {
+    right: 0;
+    top: 50%; /* Регулирует вертикальное положение изображения */
+    transform: translateY(-50%); /* Центрирует изображение по вертикали */
+    background-image: url('/static/main1.png'); /* Путь к изображению справа */
+}
+
+
     </style>
 </head>
 <body>
-    <h1>All News</h1>
+    <div class="menu">
+        <a href="{% url 'all_news' %}">Все новости</a>
+        <a href="{% url 'category_filter' 'Политика' %}">Политика</a>
+        <a href="{% url 'category_filter' 'Медицина' %}">Медицина</a>
+        <a href="{% url 'category_filter' 'Экономика' %}">Экономика</a>
+        <a href="{% url 'category_filter' 'Общество' %}">Общество</a>
+        <a href="{% url 'category_filter' 'Культура' %}">Культура</a>
+        <a href="{% url 'category_filter' 'Спорт' %}">Спорт</a>
+    </div>
+    <h1>DELTA</h1>
+    <section style="color: white; padding: 110px; font-size: 30px; text-align: center;">
+    Новостной сайт DELTA создан в рамках оповещения граждан о
+        <section>событиях происходящих в России и несет информативный </section>
+        <section>характер. Новости, публикуемые на этом сайте должны  </section>
+        <section>соответствовать Федеральному закону №149 об информации,</section>
+        <section>информационных технологиях и о защите информации.</section>
+</section>
+
     <div class="news-container">
         {% for news in all_news %}
             <div class="news-item">
-                <h2>{{ news.title }}</h2>
+                <h2><a href="#" onclick="openNews(event, '{{ news.title }}', '{{ news.category }}', '{{ news.main_image.url }}', '{{ news.preview_image.url }}', '{{ news.text }}', '{{ news.author }}', '{{ news.publication_date }}')"> {{ news.title }} </a></h2>
+                <p><strong>Категория:</strong> {{ news.category }}</p>
                 <img src="{{ news.main_image.url }}" alt="Main Image">
                 {% if news.preview_image %}
                     <img src="{{ news.preview_image.url }}" alt="Preview Image">
                 {% endif %}
-                <p>{{ news.text }}</p>
-                <p class="author">Author: {{ news.author }}</p>
-                <p class="publication-date">Publication Date: {{ news.publication_date }}</p>
+                <p class="author">Автор: {{ news.author }}</p>
+                <p class="publication-date">Дата публикации: {{ news.publication_date }}</p>
             </div>
         {% endfor %}
-        <a href="{% url 'subscribe' %}" class="subscribe-button">Оформить подписку</a>
     </div>
+    <script>
+        function openNews(event, title, category, mainImage, previewImage, text, author, publicationDate) {
+            event.preventDefault();
+            const newWindow = window.open('', '_blank');
+            const content = `
+                <html>
+                    <head>
+                        <title>${title}</title>
+                        <style>
+                            body { font-family: Arial, sans-serif; }
+                            img { max-width: 100%; height: auto; }
+                            .author { font-weight: bold; }
+                            .publication-date { color: #888; font-size: 0.9em; }
+                        </style>
+                    </head>
+                    <body>
+                        <h1>${title}</h1>
+                        <p><strong>Категория:</strong> ${category}</p>
+                        <img src="${mainImage}" alt="Main Image">
+                        <img src="${previewImage}" alt="Preview Image">
+                        <p>${text}</p>
+                        <p class="author">Автор: ${author}</p>
+                        <p class="publication-date">Дата публикации: ${publicationDate}</p>
+                    </body>
+                </html>
+            `;
+            newWindow.document.write(content);
+            newWindow.document.close();
+        }
+    </script>
+<a href="{% url 'subscribe' %}" class="subscribe-button">Оформить подписку</a>
+    <!-- Изображения слева и справа -->
+    <div class="side-images left-image"></div>
+    <div class="side-images right-image"></div>
 </body>
 </html>
