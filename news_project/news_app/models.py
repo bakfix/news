@@ -25,6 +25,8 @@ class News(models.Model):
     text = models.TextField()
     author = models.CharField(max_length=100)
     publication_date = models.DateTimeField(default=datetime.now)
+    video = models.FileField(upload_to='news_videos/', null=True, blank=True)  # Добавленное поле
+
 
     def create_thumbnail(self):
         img = Image.open(self.main_image.path)
