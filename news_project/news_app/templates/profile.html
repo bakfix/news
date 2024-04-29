@@ -1,0 +1,56 @@
+<!-- profile.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Личный кабинет</title>
+    <style>
+        body, h1, html {
+            padding: 0;
+            margin: 0;
+            font-family: Montserrat, sans-serif;
+            overflow: hidden;
+        }
+     #app {
+            height: 100vh;
+            width: 100%;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: left;
+            background-image: url("/static/back.jpg");
+            background-size: cover;
+            background-position: center;
+            z-index: 1;
+
+        }
+
+        .container {
+            margin-top: 50px;
+        }
+
+                body {
+    background-image: url("/static/back.jpg"); /* Замените ссылку на свою картинку */
+    background-size: cover; /* Задает масштабирование изображения по размерам контейнера */
+    background-position: center; /* Выравнивание изображения по центру */
+    color: #fff;
+    font-family: 'Arial', sans-serif;
+}
+        </style>
+</head>
+<body>
+    <div class="container">
+        <div id="app">
+            <h1>Личный кабинет</h1>
+            <p>Здесь вы можете увидеть информацию о своем профиле:</p>
+            <p>Имя пользователя: {{ user.username }}</p>
+            <p>Email: {{ user.email }}</p>
+            <a href="{% url 'logout' %}">Выйти из аккаунта</a>
+            <!-- Другие поля профиля, если есть -->
+                            </div>
+            </div>
+</body>
+</html>
