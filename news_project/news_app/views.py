@@ -67,26 +67,3 @@ def category_filter_view(request, category):
     if not news_list:  # Если список новостей пуст
         print("Список новостей пуст!")
     return render(request, 'filtered_news.html', {'category': category, 'news_list': news_list})
-
-from django.contrib.auth import logout
-from django.shortcuts import redirect
-
-def logout_user(request):
-    logout(request)
-    return redirect('all_news')  # Замените 'index' на URL вашей главной страницы
-
-def all_news(request):
-    all_news = News.objects.all()
-    user = request.user  # Получаем текущего пользователя
-
-    return render(request, 'news_template.html', {'all_news': all_news, 'user': user})
-
-# views.py
-from django.shortcuts import render
-from django.contrib.auth.decorators import login_required
-
-@login_required
-def profile(request):
-    user = request.user
-    # Здесь вы можете добавить код для получения дополнительной информации о пользователе
-    return render(request, 'profile.html', {'user': user})

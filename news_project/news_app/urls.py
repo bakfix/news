@@ -12,6 +12,4 @@ urlpatterns = [
     path('subscribe/register/', views.register_view, name='welcome '),  # Измененный URL-шаблон для отображения всех новостей
     path('subscribe/', subscribe, name='subscribe'),  # URL-маршрут для представления subscribe
     path('category/<str:category>/', category_filter_view, name='category_filter'),
-    path('logout/', views.logout_user, name='logout'),
-    path('profile/', views.profile, name='profile'),
 ]
