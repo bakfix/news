@@ -159,6 +159,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 YOOKASSA_ACCOUNT_ID = '368792'
 YOOKASSA_SECRET_KEY = 'test_CK5BcOMRKYbz-B0LcFlpXmw1qlvbnZTldMFdMycdYOQ'
 
-
-
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ],
+}
 

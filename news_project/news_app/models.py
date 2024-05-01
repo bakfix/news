@@ -5,9 +5,27 @@ from io import BytesIO
 from django.core.files.base import ContentFile
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django_admin_geomap import GeoItem
+from django.db import models
+from django.contrib.auth.models import User
 
 class Category(models.Model):
     name = models.CharField(max_length=50)
+class City(models.Model):
+    name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.name
+
+
+
+class Comment(models.Model):
+    news = models.ForeignKey('News', on_delete=models.CASCADE, related_name='comments')  # Используйте строку 'News' вместо имени класса
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    text = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f'Comment by {self.author.username} on {self.news.title}'
 
 class News(models.Model):
     CATEGORY_CHOICES = [
@@ -21,11 +39,23 @@ class News(models.Model):
     category = models.CharField(max_length=100, choices=CATEGORY_CHOICES, default='Категории')
     title = models.CharField(max_length=255)
     main_image = models.ImageField(upload_to='news_images/', default='default_image.jpg')
-    preview_image = models.ImageField(upload_to='news_images/previews/', blank=True, null=True)
     text = models.TextField()
     author = models.CharField(max_length=100)
     publication_date = models.DateTimeField(default=datetime.now)
     video = models.FileField(upload_to='news_videos/', null=True, blank=True)  # Добавленное поле
+    CITY_CHOICES = [
+        ('Москва', 'Москва'),
+        ('Санкт-Петербург', 'Санкт-Петербург'),
+        ('Новосибирск', 'Новосибирск'),
+        ('Красноярск', 'Красноярск'),
+        ('Кемерово', 'Кемерово'),
+        ('Краснодар', 'Краснодар'),
+        ('Хабаровск', 'Хабаровск'),
+    ]
+    city = models.CharField(max_length=100, choices=CITY_CHOICES, null=True, blank=True)
+    views = models.PositiveIntegerField(default=0)
+    def __str__(self):
+        return self.title
 
 
     def create_thumbnail(self):
@@ -45,19 +75,9 @@ class News(models.Model):
         thumbnail_io = BytesIO()
         thumbnail.save(thumbnail_io, format='JPEG')
 
-        # Создание ContentFile и сохранение его в preview_image
-        thumbnail_file = ContentFile(thumbnail_io.getvalue())
-        self.preview_image.save(f"preview_{self.main_image.name}", thumbnail_file, save=False)
-
         # Закрытие буфера
         thumbnail_io.close()
 
-    def save(self, *args, **kwargs):
-        super().save(*args, **kwargs)
-        if not self.preview_image:
-            # Вызов метода создания превью, если preview_image не установлено
-            self.create_thumbnail()
-            self.save()  # Повторное сохранение для обновления preview_image
 
     def __str__(self):
         return self.title
