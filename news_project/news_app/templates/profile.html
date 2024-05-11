@@ -1,56 +1,384 @@
-<!-- profile.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Личный кабинет</title>
     <style>
-        body, h1, html {
-            padding: 0;
-            margin: 0;
-            font-family: Montserrat, sans-serif;
-            overflow: hidden;
-        }
-     #app {
-            height: 100vh;
+
+        body {
+            font-family: Arial, sans-serif;
+
+            color:white;
+                        height: 100vh;
             width: 100%;
             margin: 0;
             padding: 0;
             display: flex;
-            flex-direction: column;
-            justify-content: center;
+
+
             align-items: left;
-            background-image: url("/static/back.jpg");
+            background-image: url("/static/back1.jpg");
             background-size: cover;
             background-position: center;
             z-index: 1;
-
         }
+
+.profile-links {
+    padding: 10px;
+
+}
+
+.profile-links a {
+    color: white;
+    text-decoration: none;
+}
+
+.profile-links a:hover {
+box-shadow: 0 0 10px 5px rgba(255, 255, 255, 0.5);
+}
+
+
 
         .container {
             margin-top: 50px;
         }
 
-                body {
-    background-image: url("/static/back.jpg"); /* Замените ссылку на свою картинку */
-    background-size: cover; /* Задает масштабирование изображения по размерам контейнера */
-    background-position: center; /* Выравнивание изображения по центру */
-    color: #fff;
-    font-family: 'Arial', sans-serif;
+
+
+        /* Стили для кнопок */
+        .remove-button {
+            background-color: #000; /* Цвет фона */
+            color: white; /* Цвет текста */
+            border: none; /* Убираем границу */
+            padding: 10px 20px; /* Отступы внутри кнопки */
+            font-size: 16px; /* Размер текста */
+            border-radius: 5px; /* Скругленные углы */
+            cursor: pointer; /* Изменяем курсор при наведении */
+            transition: background-color 0.3s; /* Плавное изменение цвета фона при наведении */
+            margin-left: 10px; /* Отступ слева */
+        }
+
+        .remove-button:hover {
+            background-color: #555555; /* Цвет фона при наведении */
+        }
+
+        /* Стили для новостей */
+        .news-item {
+            display: flex; /* Располагаем элементы в строку */
+            align-items: center; /* Выравниваем элементы по вертикали */
+            margin-bottom: 20px; /* Отступ между новостями */
+        }
+
+        .news-content {
+            flex: 1; /* Растягиваем содержимое, чтобы изображение находилось справа */
+            color: black;
+        }
+        .styled-link {
+    color: #000; /* Цвет текста */
+    text-decoration: none; /* Убираем подчеркивание */
+    transition: color 0.3s ease; /* Плавное изменение цвета */
 }
-        </style>
+
+.styled-link:hover {
+    color: red; /* Изменяем цвет текста при наведении */
+}
+
+        /* Стили для мини-меню */
+        .pagination {
+            display: flex; /* Располагаем элементы в строку */
+            list-style-type: none; /* Убираем маркеры */
+            padding: 0; /* Убираем отступы */
+            margin-top: 20px; /* Отступ сверху */
+        }
+
+        .pagination li {
+            margin-right: 10px; /* Отступ между элементами */
+        }
+
+        .pagination li a {
+            background-color: #fff; /* Цвет фона */
+            color: #000; /* Цвет текста */
+            padding: 5px 10px; /* Отступы внутри элемента */
+            border-radius: 5px; /* Скругленные углы */
+            text-decoration: none; /* Убираем подчеркивание текста */
+            transition: background-color 0.3s; /* Плавное изменение цвета фона при наведении */
+        }
+
+        .pagination li a:hover {
+            background-color: #555555; /* Цвет фона при наведении */
+            color: #fff; /* Цвет текста при наведении */
+        }
+
+                /* Стили для ссылки с названием DELTA и изображением */
+        .delta-link {
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        /* Стили для названия DELTA */
+        .delta-title {
+            margin: 0;
+            transition: filter 0.3s ease;
+            font-size: 40px; /* Размер текста DELTA */
+        }
+
+        /* Стили для изображения DELTA */
+        .delta-image {
+            width: 100px; /* Ширина изображения DELTA */
+            height: 100px; /* Высота изображения DELTA */
+            margin-left: 0px;
+            margin-top: 10px;
+            transition: filter 0.3s ease;
+        }
+
+        /* Анимация при наведении на ссылку */
+
+        .delta-link:hover .delta-title
+         {
+box-shadow: 0 0 10px 5px rgba(255, 255, 255, 0.5);
+        }
+                .profile_icon {
+            width: 60px; /* Ширина изображения DELTA */
+            height: 50px; /* Высота изображения DELTA */
+            margin-top: 15px;
+            margin-right: 10px;
+        }
+
+                .root {
+                    width: 20px; /* Ширина изображения DELTA */
+            height: 20px; /* Высота изображения DELTA */
+            margin-top: 30px;
+            margin-right: 20px;
+        }
+                /* Стили для мини-меню */
+        .pagination {
+            display: flex; /* Располагаем элементы в строку */
+            list-style-type: none; /* Убираем маркеры */
+            padding: 0; /* Убираем отступы */
+            margin-top: 20px; /* Отступ сверху */
+        }
+
+        .pagination li {
+            margin-right: 10px; /* Отступ между элементами */
+        }
+
+        .pagination li a {
+            background-color: #fff; /* Цвет фона */
+            color: #000; /* Цвет текста */
+            padding: 5px 10px; /* Отступы внутри элемента */
+            border-radius: 5px; /* Скругленные углы */
+            text-decoration: none; /* Убираем подчеркивание текста */
+            transition: background-color 0.3s; /* Плавное изменение цвета фона при наведении */
+        }
+
+        .pagination li a:hover {
+            background-color: #555555; /* Цвет фона при наведении */
+            color: #fff; /* Цвет текста при наведении */
+        }
+                .news-content {
+            flex: 1; /* Растягиваем содержимое, чтобы изображение находилось справа */
+        }
+.favorite-news-wrapper {
+            background-color: white; /* Белый фон */
+            padding: 20px; /* Отступы вокруг элемента */
+            border-radius: 10px; /* Скругленные углы */
+            box-shadow: 0px 0px 10px 5px rgba(0, 0, 0, 0.1); /* Тень */
+            max-height: 300px; /* Задай высоту блока, при достижении которой появится прокрутка */
+            overflow-y: auto; /* Добавь вертикальную прокрутку */
+        }
+
+        /* Стили для меню избранных новостей */
+        .favorite-news-menu {
+            max-height: 300px; /* Задай высоту списка, при достижении которой появится прокрутка */
+            overflow-y: auto; /* Добавь вертикальную прокрутку */
+        }
+
+    </style>
 </head>
 <body>
-    <div class="container">
+
+    <div class="container" style="width: 100%;">
         <div id="app">
-            <h1>Личный кабинет</h1>
-            <p>Здесь вы можете увидеть информацию о своем профиле</p>
-            <p>Имя пользователя: {{ user.username }}</p>
-            <p>Email: {{ user.email }}</p>
-            <a href="{% url 'logout' %}">Выйти из аккаунта</a>
-            <!-- Другие поля профиля, если есть -->
-                            </div>
+
+<div style="display: flex; justify-content: space-between;">
+            <a href="{% url 'all_news' %}" class="delta-link">
+        <!-- Название DELTA -->
+        <h1 class="delta-title">DELTA</h1>
+        <!-- Изображение DELTA -->
+        <img src="/static/delta.png" alt="DELTA" class="delta-image">
+    <img src="/static/18.png" class="root" alt="Возратсные Ограничения">
+                </a>
+            <div class="profile-links">
+                <a href="{% url 'logout' %}">Выйти из аккаунта</a>
             </div>
+</div>
+
+            <h1>Личный кабинет</h1>
+
+            <p>Имя пользователя: {{ user.username }}</p>
+{% if user.subscription %}
+        <p>Текущая подписка: {{ user.subscription.get_duration_display }}</p>
+    {% else %}
+        <p>Оплата проверится в течении суток, пока можете пользоваться функциями подписки</p>
+    {% endif %}
+
+            <div class="favorite-news-wrapper">
+                <div class="favorite-news-menu">
+                    <h2 style="color: black;">Избранные новости</h2>
+                    <ul class="favorite-news-list">
+                        {% for favorite_news in user.favoritenews_set.all %}
+                            <li class="news-item">
+                                <div class="news-content">
+                                    <a class="styled-link" href="#" onclick="openNews(event, '{{ favorite_news.news.title }}', '{{ favorite_news.news.category }}', '{{ favorite_news.news.main_image.url }}', '{{ favorite_news.news.text|escapejs }}', '{{ favorite_news.news.author }}', '{{ favorite_news.news.publication_date }}', '{{ favorite_news.news.video.url }}', {% if user.is_authenticated %}true{% else %}false{% endif %})">{{ favorite_news.news.title }}</a>
+                                </div>
+                                    <form method="post" action="{% url 'remove_from_favorites' favorite_news.news.id %}">
+                                        {% csrf_token %}
+                                        <button type="submit" class="remove-button" data-news-id="{{ favorite_news.news.id }}" >Убрать из избранного</button>
+                                    </form>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script>
+    $(document).ready(function() {
+    $('.remove-button').click(function(event) {
+        event.preventDefault(); // Предотвращаем стандартное действие кнопки (например, отправку формы или переход по ссылке)
+
+        var newsId = $(this).data('news-id'); // Получаем идентификатор новости из атрибута data-news-id кнопки
+        console.log("News ID:", newsId); // Проверяем значение newsId в консоли браузера
+
+        // Получаем CSRF-токен из кук
+        var csrftoken = getCookie('csrftoken');
+
+        $.ajax({
+            url: '/remove_from_favorites/' + newsId + '/', // URL для удаления из избранного
+            type: 'POST',
+            headers: { "X-CSRFToken": csrftoken }, // Передаем CSRF-токен в заголовке запроса
+            success: function(response) {
+                // Обработка успешного ответа
+                alert("Вы успешно убрали новость из избранного");
+                // Дополнительные действия, если необходимо
+            },
+            error: function(xhr, errmsg, err) {
+                // Обработка ошибки
+                alert("Не удалось убрать новость из избранного");
+            }
+        });
+    });
+});
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = cookies[i].trim();
+            // Ищем куки с заданным именем
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+</script>
+
+<script>
+    function openNews(event, title, category, mainImage, text, author, publicationDate, videoUrl, isAuthenticated) {
+        event.preventDefault();
+        const newWindow = window.open('', '_blank');
+        let content = `
+            <html>
+                <head>
+                    <title>${title}</title>
+                    <style>
+                        body { font-family: Arial, sans-serif; }
+                        img { max-width: 100%; height: auto; }
+                        .author { font-weight: bold; }
+                        .publication-date { color: #888; font-size: 0.9em; }
+                    </style>
+                </head>
+                <body>
+                    <h1>${title}</h1>
+                    <p><strong>Категория:</strong> ${category}</p>
+                    <img src="${mainImage}" alt="Main Image">
+
+        `;
+        // Проверяем, авторизован ли пользователь
+        if (isAuthenticated) {
+            // Если пользователь авторизован, добавляем видео-репортаж
+            content += `
+                <video width="300" height="300" controls>
+                    <source src="${videoUrl}" type="video/mp4">
+                    Ваш браузер не поддерживает воспроизведение видео.
+                </video>
+            `;
+        } else {
+            // Если пользователь не авторизован, предлагаем ему войти или зарегистрироваться
+            content += `
+                <p>Для просмотра видео-репортажа <a href="{% url 'subscribe' %}">оформите подписку </a> или <a href="{% url 'login' %}">войдите в существующий аккаунт</a>.</p>
+            `;
+        }
+content += `
+    <p>${text}</p>
+    <p class="author">Автор: ${author}</p>
+    <p class="publication-date">Дата публикации: ${publicationDate}</p>
+`;
+        content += `
+                </body>
+            </html>
+        `;
+
+        newWindow.document.write(content);
+        newWindow.document.close();
+
+        // Вызываем функцию для отслеживания просмотра новости
+        trackNewsView(title);
+    }
+
+    // Функция для отслеживания просмотра новости
+    function trackNewsView(title) {
+        fetch(`/track-news-view/${title}/`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCookie('csrftoken') // Добавляем CSRF токен
+            }
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to track news view');
+            }
+        })
+        .catch(error => console.error('Error:', error));
+    }
+
+    // Функция для получения CSRF токена из куки
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.startsWith(name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+</script>
+
 </body>
 </html>

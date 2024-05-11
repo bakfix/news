@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,9 +8,10 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #000;
+            background-color: #555555 ;
             margin: 0;
             padding: 0;
+            background: linear-gradient(to bottom, #000 120px, #555555 0px);
         }
 .profile-links {
     padding: 10px;
@@ -21,12 +23,11 @@
 }
 
 .profile-links a:hover {
-    color: #949494;
+box-shadow: 0 0 10px 5px rgba(255, 255, 255, 0.5);
 }
-
         /* Стили для категорий новостей */
         .categories-container {
-            background: linear-gradient(to bottom, #555555, #000000);
+            background: linear-gradient(to bottom, #000000 , #555555);
             padding: 30px 0; /* Отступы сверху и снизу */
             text-align: center; /* Центрирование категорий */
             margin-top: 0px; /* Изменено */
@@ -96,7 +97,7 @@
         }
         .subscribe-button {
             position: absolute;
-            top: 50px;
+            top: 180px;
             right: 20px;
             padding: 10px 20px;
             background-color: #fff;
@@ -111,7 +112,7 @@
                 /* Добавляем изображения слева и справа */
         .side-images {
             position: absolute;
-            top: 0;
+            margin-top: 130px;
             width: 360px; /* Ширина изображений */
             height: 40%;
             background-size: cover;
@@ -175,13 +176,168 @@
 .toggle-comments-button:hover {
     background-color: #949494;
 }
+        /* Стили для ссылки с названием DELTA и изображением */
+        .delta-link {
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        /* Стили для названия DELTA */
+        .delta-title {
+            margin: 0;
+            transition: filter 0.3s ease;
+            font-size: 40px; /* Размер текста DELTA */
+        }
+
+        /* Стили для изображения DELTA */
+        .delta-image {
+            width: 100px; /* Ширина изображения DELTA */
+            height: 100px; /* Высота изображения DELTA */
+            margin-left: 0px;
+            margin-top: 10px;
+            transition: filter 0.3s ease;
+        }
+
+        /* Анимация при наведении на ссылку */
+
+        .delta-link:hover .delta-title
+         {
+box-shadow: 0 0 10px 5px rgba(255, 255, 255, 0.5);
+        }
+                .profile_icon {
+            width: 60px; /* Ширина изображения DELTA */
+            height: 50px; /* Высота изображения DELTA */
+            margin-top: 15px;
+            margin-right: 10px;
+        }
+            .news-form {
+        display: flex;
+        align-items: center;
+    }
+
+    /* Стили для выпадающего списка */
+    .news-form select {
+        padding: 10px;
+        margin-right: 10px;
+    }
+
+    /* Стили для кнопки */
+    .news-form button {
+        padding: 10px 20px;
+        background-color: #fff;
+        color: black;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+        .news-form button:hover {
+    background-color: #949494;
+}
+        .horizontal-line {
+    height: 1px;
+    background-color: white;
+    margin: 20px 0;
+}
+
+.vertical-line {
+    width: 1px;
+    background-color: white;
+    margin: 0 20px;
+}
+        .root {
+                    width: 20px; /* Ширина изображения DELTA */
+            height: 20px; /* Высота изображения DELTA */
+            margin-top: 30px;
+            margin-right: 20px;
+        }
+        .img{
+        width: 800px; /* Ширина изображения DELTA */
+            height: 500px; /* Высота изображения DELTA */
+            margin-top: 15px;
+            margin-right: 10px;
+        }
+        .video-container {
+    display: inline-block; /* Делает видео блоком, который можно выравнивать по горизонтали */
+    margin-top: 30px; /* Добавляет небольшой отступ слева от изображения */
+    margin-left: 200px;
+}
+
+.styled-link {
+    color: #000; /* Цвет текста */
+    text-decoration: none; /* Убираем подчеркивание */
+    transition: color 0.3s ease; /* Плавное изменение цвета */
+}
+
+.styled-link:hover {
+    color: red; /* Изменяем цвет текста при наведении */
+}
 
 
+
+.add-to-favorites-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+
+}
+
+
+
+
+.add-to-favorites-text {
+    background: none;
+    border: none;
+    color: inherit;
+    cursor: pointer;
+    font: inherit;
+    outline: inherit;
+
+}
+
+.add-to-favorites-text img {
+    vertical-align: middle; /* Чтобы изображение было выровнено по вертикали с текстом */
+    margin-left: 5px; /* Установите желаемый отступ между текстом и изображением */
+    width: 20px; /* Укажите размер сердечка по вашему усмотрению */
+}
     </style>
 </head>
 <body>
+<div style="display: flex; justify-content: space-between;">
+
+
+<a href="{% url 'all_news' %}" class="delta-link">
+        <!-- Название DELTA -->
+        <h1 class="delta-title">DELTA</h1>
+        <!-- Изображение DELTA -->
+        <img src="/static/delta.png" alt="DELTA" class="delta-image">
+    <img src="/static/18.png" class="root" alt="Возратсные Ограничения">
+    <div class="profile-links">
+        {% if user.is_authenticated %}
+
+            <a href="{% url 'profile' %}" style="display: flex; align-items: center;">
+
+                <span class="profile-span">Личный кабинет</span>
+
+        <img src="/static/iconprofile.png" class="profile_icon" alt="Личный кабинет">
+
+                </a>
+        {% else %}
+            <a href="{% url 'login' %}" style="display: flex; align-items: center;">
+
+                <span>Войти в аккаунт</span>
+        <img src="/static/iconprofile.png" class="profile_icon" alt="Личный кабинет">
+                </a>
+        {% endif %}
+</div>
+</div>
+    </a>
+
     <div class="categories-container">
         <div class="categories">
+                <a href="{% url 'category_filter_view' 'СВО' %}?city={{ city }}">СВО</a>
     <a href="{% url 'category_filter_view' 'Политика' %}?city={{ city }}">Политика</a>
     <a href="{% url 'category_filter_view' 'Медицина' %}?city={{ city }}">Медицина</a>
     <a href="{% url 'category_filter_view' 'Экономика' %}?city={{ city }}">Экономика</a>
@@ -190,17 +346,12 @@
     <a href="{% url 'category_filter_view' 'Спорт' %}?city={{ city }}">Спорт</a>
 
 
+
     </div>
        </div>
-    <div class="profile-links">
-        {% if user.is_authenticated %}
-            <a href="{% url 'profile' %}">Личный кабинет</a>
-        {% else %}
-            <a href="{% url 'login' %}">Войти в аккаунт</a>
-        {% endif %}
-</div>
 
-<form method="get" action="{% url 'news_by_city' %}">
+
+<form method="get" action="{% url 'news_by_city' %}" class="news-form">
     <input type="hidden" name="city" id="selected_city" value="{{ selected_city }}">
     <select name="city" id="city">
         <option value="">Все города</option>
@@ -215,36 +366,60 @@
     <button type="submit">Показать</button>
 </form>
 
-    <h1>DELTA</h1>
-    <section style="color: white; padding: 110px; font-size: 30px; text-align: center;">
+
+    <section style="color: white; padding: 110px; font-size: 30px; text-align: center; margin-top: 10px;">
+<div class="horizontal-line"></div>
     Новостной сайт DELTA создан в рамках оповещения граждан о
         <section>событиях происходящих в России и несет информативный </section>
         <section>характер. Новости, публикуемые на этом сайте должны  </section>
         <section>соответствовать Федеральному закону №149 об информации,</section>
         <section>информационных технологиях и о защите информации.</section>
 </section>
+<div class="horizontal-line"></div>
 
  <div class="news-container">
     {% for single_news in news %}
         <div class="news-item">
 
-            <h2><a href="#" onclick="openNews(event, '{{ single_news.title }}', '{{ single_news.category }}', '{{ single_news.main_image.url }}', '{{ single_news.text|escapejs }}', '{{ single_news.author }}', '{{ single_news.publication_date }}', '{{ single_news.video.url }}', {% if user.is_authenticated %}true{% else %}false{% endif %})"> {{ single_news.title }} </a></h2>
+
+    <div style="position: relative;">
+        {% if user.is_authenticated %}
+        <form method="post" action="{% url 'add_to_favorites' single_news.pk %}">
+            {% csrf_token %}
+            <input type="hidden" name="news_id" value="{{ single_news.pk }}">
+                        <button type="submit" class="add-to-favorites-text">
+                Добавить новость в избранное<img src="{% static 'likenews.png' %}" alt="Add to Favorites">
+            </button>
+        </form>
+            {% else %}
+        <p>Для добавления новости в избранное <a href="{% url 'login' %}">войдите</a> или <a href="{% url 'subscribe' %}">оформите подписку</a>.</p>
+    {% endif %}
+    </div>
+
+
+            <!-- Открываем новость и вызываем функцию отслеживания просмотра -->
+<h2><a class="styled-link" href="#" onclick="openNews(event, '{{ single_news.title }}', '{{ single_news.category }}', '{{ single_news.main_image.url }}', '{{ single_news.text|escapejs }}', '{{ single_news.author }}', '{{ single_news.publication_date }}', '{{ single_news.video.url }}', {% if user.is_authenticated %}true{% else %}false{% endif %})"> {{ single_news.title }} </a></h2>
+
+
 
             <!-- Остальные данные новости -->
             <p><strong>Категория:</strong> {{ single_news.category }}</p>
 
-            <img src="{{ single_news.main_image.url }}" alt="Main Image">
-
-
+            <img src="{{ single_news.main_image.url }}" class="img"alt="Main Image">
             {% if user.is_authenticated %}
-                <!-- HTML-код для отображения видео -->
-                <video width="300" height="300" controls>
+                <div class="video-container">
+                    {% if single_news.video %}
+                <video width="400" height="250" controls >
                     <source src="{{ single_news.video.url }}" type="video/mp4">
                     Ваш браузер не поддерживает воспроизведение видео.
                 </video>
+                    {% endif %}
+                    </div>
             {% else %}
-                <p>Для просмотра видео-репортажа <a href="{% url 'subscribe' %}">оформите подписку</a>.</p>
+                <p>Для просмотра видео-репортажа <a href="{% url 'login' %}">войдите</a> или <a href="{% url 'subscribe' %}">оформите подписку</a>.</p>
             {% endif %}
+
+
 
 
             <p class="views-counter">Просмотры: {{ single_news.views }}</p>
@@ -264,7 +439,7 @@
 
                 </form>
             {% else %}
-                <p>Для комментирования новостей войдите <a href="{% url 'subscribe' %}"> или оформите подписку</a>.</p>
+                <p>Для комментирования новостей войдите <a href="{% url 'login' %}">войдите</a> или <a href="{% url 'subscribe' %}">оформите подписку</a>.</p>
             {% endif %}
 
 
@@ -276,19 +451,82 @@
                 <p class="publication-date">Дата публикации: {{ single_news.publication_date }}</p>
                 <p class="author">Автор: {{ single_news.author }}</p>
             </div>
+
             <!-- Контейнер комментариев -->
             <div id="comments-container-{{ single_news.pk }}" class="comments-container" style="display: none;">
                 <!-- Отображение комментариев -->
                 <h3>Комментарии</h3>
-                {% for comment in single_news.comments.all %}
-
-                    <p>Автор: {{ comment.author }}</p>
-                <p>{{ comment.text }}</p>
+            {% for comment in single_news.comments.all %}
+                <p STYLE="margin-top: -2px;"> Комментарий: {{ comment.text }}</p>
+                <p STYLE="margin-top: -2px;">Автор: {{ comment.author }}</p>
+{% if user.is_authenticated %}
+    {% if user.username == 'MainAdmin' %}
+        <!-- Код для кнопки удаления комментария -->
+        <form action="{% url 'delete_comment' comment.id %}" method="post">
+            {% csrf_token %}
+            <button type="submit">Удалить</button>
+        </form>
+    {% endif %}
+{% endif %}
                 {% endfor %}
             </div>
         </div>
     {% endfor %}
+
+
 </div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function() {
+    $('.add-to-favorites-text').click(function(event) {
+        event.preventDefault(); // Предотвращаем стандартное действие кнопки (например, отправку формы или переход по ссылке)
+
+        var newsId = $(this).closest('form').find('input[name="news_id"]').val(); // Получаем идентификатор новости из скрытого поля формы
+        console.log("News ID:", newsId); // Проверяем значение newsId в консоли браузера
+
+        // Получаем CSRF-токен из кук
+        var csrftoken = getCookie('csrftoken');
+
+        $.ajax({
+            url: '/add_to_favorites/' + newsId + '/', // URL для добавления в избранное
+            type: 'POST',
+            headers: { "X-CSRFToken": csrftoken }, // Передаем CSRF-токен в заголовке запроса
+            success: function(response) {
+                // Обработка успешного ответа
+                alert("Вы успешно добавили новость в избранное");
+                // Дополнительные действия, если необходимо
+            },
+            error: function(xhr, errmsg, err) {
+                // Обработка ошибки
+                alert("Вы уже добавили эту новость в избранное");
+            }
+        });
+    });
+});
+
+// Функция для получения CSRF-токена из кук
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = jQuery.trim(cookies[i]);
+            // Проверяем, начинается ли кука с искомого имени
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                // Если да, то получаем значение куки
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+
+</script>
+
+
+
 <script>
     function openNews(event, title, category, mainImage, text, author, publicationDate, videoUrl, isAuthenticated) {
         event.preventDefault();
@@ -398,10 +636,55 @@ toggleButtons.forEach(function(button) {
 
 </script>
 
+<script>
+function deleteComment(commentId) {
+    $.ajax({
+        url: `/delete_comment/${commentId}/`,
+        type: 'POST',
+        data: {
+            csrfmiddlewaretoken: '{{ csrf_token }}',
+        },
+        success: function(response) {
+            // После успешного удаления комментария можно выполнить дополнительные действия
+            // Например, удалить контейнер комментария из DOM
+            $('#comments-container-' + commentId).remove();
+        },
+        error: function(xhr, errmsg, err) {
+            console.log(xhr.status + ": " + xhr.responseText); // Вывести ошибку в консоль
+        }
+    });
+}
+</script>
+<script>
+// Функция для отслеживания просмотра новости
+function trackNewsView(newsId) {
+    fetch(`/track-news-view/${newsId}/`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': getCookie('csrftoken') // Добавляем CSRF токен
+        }
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Failed to track news view');
+        }
+    })
+    .catch(error => console.error('Error:', error));
+}
 
-<a href="{% url 'subscribe' %}" class="subscribe-button">Оформить подписку</a>
+</script>
+
+{% if user.is_authenticated %}
+    <!-- Код, который будет отображаться для авторизованных пользователей -->
+{% else %}
+    <!-- Код, который будет отображаться для неавторизованных пользователей -->
+    <a href="{% url 'subscribe' %}" class="subscribe-button">Оформить подписку</a>
+{% endif %}
     <!-- Изображения слева и справа -->
     <div class="side-images left-image"></div>
     <div class="side-images right-image"></div>
+
+
 </body>
 </html>

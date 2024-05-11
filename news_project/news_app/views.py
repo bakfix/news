@@ -1,21 +1,16 @@
 from django.contrib.auth import authenticate, login
 from rest_framework import generics
-from .models import News
 from .serializers import NewsSerializer
 from django.views.generic import ListView
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.forms import AuthenticationForm
-from django.shortcuts import render
-from .models import News
-from django.shortcuts import render, get_object_or_404, redirect
-from .models import News, Comment
+from django.shortcuts import render, redirect, get_object_or_404
+from .models import News, Comment, FavoriteNews
 from .forms import CommentForm
-from django.shortcuts import render
-from .models import News
-
 from urllib.parse import unquote
-
+from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
 def news_by_city(request):
     global city
     city_encoded = request.GET.get('city', '')  # Получаем закодированное значение города
@@ -67,11 +62,18 @@ def register_view(request):
         form = UserCreationForm(request.POST)
         if form.is_valid():
             form.save()
+            # Получаем данные пользователя из формы
+            username = form.cleaned_data.get('username')
+            raw_password = form.cleaned_data.get('password1')
+            # Аутентифицируем пользователя
+            user = authenticate(username=username, password=raw_password)
+            if user is not None:
+                # Если пользователь успешно аутентифицирован, выполняем вход
+                login(request, user)
             return redirect('all_news')  # Перенаправление на страницу с новостями после успешной регистрации
     else:
         form = UserCreationForm()
     return render(request, 'registration.html', {'form': form})
-
 
 def subscribe(request):
     if request.method == 'POST':
@@ -146,7 +148,7 @@ def profile(request):
     return render(request, 'profile.html', {'user': user})
 
 
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from .models import News
 
 def track_news_view(request, title):
@@ -159,33 +161,130 @@ def track_news_view(request, title):
         return JsonResponse({'success': False, 'error': 'News not found'}, status=404)
 
 
+def contains_prohibited_words(text, prohibited_words):
+    for word in prohibited_words:
+        if word.lower() in text.lower():
+            return True
+    return False
+
+def load_prohibited_words(file_path):
+    with open(file_path, 'r', encoding='utf-8') as file:
+        return [line.strip() for line in file if line.strip()]
 
 def news_detail(request, pk):
     news = get_object_or_404(News, pk=pk)
     comments = news.comments.all()
+    prohibited_words = load_prohibited_words('mute.txt')
+
     if request.method == 'POST':
-        if request.user.is_authenticated:
-            form = CommentForm(request.POST)
-            if form.is_valid():
-                comment = form.save(commit=False)
-                comment.news = news
-                comment.user = request.user
-                comment.save()
-                # После добавления комментария перенаправляем обратно на страницу всех новостей
-                return redirect('all_news')
-        else:
-            # Если пользователь не авторизован, перенаправляем его на страницу входа
-            return redirect('login')
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            if request.user.is_authenticated:
+                comment_text = form.cleaned_data.get('text')
+                if not contains_prohibited_words(comment_text, prohibited_words):
+                    comment = form.save(commit=False)
+                    comment.news = news
+                    comment.user = request.user
+                    comment.save()
+                    return redirect('all_news')
+                else:
+                    return render(request, 'error_page_comment.html', {'error_message': 'Ваш комментарий содержит запрещенные слова.'})
+            else:
+                return redirect('login')
     else:
         form = CommentForm()
-    return render(request, 'all_news.html', {'news': news, 'comments': comments, 'form': form})
 
-from django.shortcuts import redirect
-from .models import News, Comment
+    return render(request, 'news_detail.html', {'news': news, 'comments': comments, 'form': form})
 
 def add_comment(request, pk):
     if request.method == 'POST':
-        text = request.POST.get('text')
-        news = News.objects.get(pk=pk)
-        Comment.objects.create(news=news, author=request.user, text=text)
-    return redirect('all_news')  # Перенаправление на страницу всех новостей
+        if request.user.is_authenticated:
+            news = get_object_or_404(News, pk=pk)
+            text = request.POST.get('text')
+            prohibited_words = load_prohibited_words('mute.txt')
+            if not contains_prohibited_words(text, prohibited_words):
+                Comment.objects.create(news=news, author=request.user, text=text)
+                return redirect('all_news')
+            else:
+                return render(request, 'error_page_comment.html', {'error_message': 'Ваш комментарий содержит запрещенные слова.'})
+    return redirect('all_news')
+
+@login_required
+def my_view(request):
+    # Проверяем, является ли текущий пользователь администратором
+    is_main_admin = request.user.username == 'MainAdmin'
+
+    # Получаем комментарии из базы данных
+    comments = Comment.objects.all()
+
+    # Передаем переменные в контекст шаблона
+    return render(request, 'template_name.html', {'comments': comments, 'is_main_admin': is_main_admin})
+@login_required
+def delete_comment(request, comment_id):
+    comment = get_object_or_404(Comment, pk=comment_id)
+    if request.user.username == "MainAdmin":
+        comment.delete()
+    return redirect(request.GET.get('next', '/'))
+
+
+from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
+
+@login_required
+def add_to_favorites(request, news_id):
+    if request.method == 'POST':
+        news = get_object_or_404(News, pk=news_id)
+        # Проверяем, не добавлена ли уже эта новость в избранное для текущего пользователя
+        if not FavoriteNews.objects.filter(user=request.user, news=news).exists():
+            FavoriteNews.objects.create(user=request.user, news=news)
+            return JsonResponse({'message': 'Вы успешно добавили новость в избранное'})
+        else:
+            return JsonResponse({'error': 'Эта новость уже добавлена в избранное'}, status=400)
+    else:
+        return JsonResponse({'error': 'Метод GET не поддерживается'}, status=405)
+
+from django.shortcuts import get_object_or_404
+from django.http import JsonResponse
+
+@login_required
+def remove_from_favorites(request, news_id):
+    if request.method == 'POST':
+        news = get_object_or_404(News, pk=news_id)
+        favorite_news = FavoriteNews.objects.filter(user=request.user, news=news).first()
+        if favorite_news:
+            favorite_news.delete()
+            return JsonResponse({'message': 'Вы успешно убрали новость из избранного'})
+        else:
+            return JsonResponse({'error': 'Эта новость не добавлена в избранное'}, status=400)
+    else:
+        return JsonResponse({'error': 'Метод GET не поддерживается'}, status=405)
+
+
+
+from django.shortcuts import render, redirect
+from django.contrib import messages
+from .forms import SubscriptionForm
+from .models import Subscription
+
+def subscribe(request):
+    if request.method == 'POST':
+        form = SubscriptionForm(request.POST)
+        if form.is_valid():
+            duration = form.cleaned_data['duration']
+            # Сохраняем выбранный срок подписки для текущего пользователя
+            subscription = Subscription.objects.create(user=request.user, duration=duration)
+            subscription.save()
+            messages.success(request, 'Подписка успешно оформлена!')
+            return redirect('profile')
+    else:
+        form = SubscriptionForm()
+    return render(request, 'subscription_form.html', {'form': form})
+
+
+
+@login_required
+def profile(request):
+    user = request.user
+    subscription = Subscription.objects.filter(user=user).first()
+    return render(request, 'profile.html', {'user': user, 'subscription': subscription})
+

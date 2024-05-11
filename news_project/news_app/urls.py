@@ -9,7 +9,7 @@ urlpatterns = [
     path('news/', NewsListCreateView.as_view(), name='news-list-create'),
     path('login/', views.login_view, name='login'),
     path('news/<int:pk>/', NewsRetrieveUpdateDestroyView.as_view(), name='news-retrieve-update-destroy'),
-    path('subscribe/register/', views.register_view, name='welcome '),  # Измененный URL-шаблон для отображения всех новостей
+    path('subscribe/registration/', views.register_view, name='welcome'),  # Измененный URL-шаблон для отображения всех новостей
     path('subscribe/', subscribe, name='subscribe'),  # URL-маршрут для представления subscribe
     path('category/<str:category>/', views.category_filter_view, name='category_filter_view'),
     path('logout/', views.logout_user, name='logout'),
@@ -17,4 +17,8 @@ urlpatterns = [
     path('news_by_city/', news_by_city, name='news_by_city'),
     path('track-news-view/<str:title>/', track_news_view, name='track_news_view'),
     path('news/<int:pk>/comment/', views.add_comment, name='add_comment'),
+    path('delete_comment/<int:comment_id>/', views.delete_comment, name='delete_comment'),
+    path('add_to_favorites/<int:news_id>/', views.add_to_favorites, name='add_to_favorites'),
+    path('remove_from_favorites/<int:news_id>/', views.remove_from_favorites, name='remove_from_favorites'),
+
 ]

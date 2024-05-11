@@ -8,7 +8,3 @@ def delete_news_images(sender, instance, **kwargs):
     if instance.main_image:
         if os.path.isfile(instance.main_image.path):
             os.remove(instance.main_image.path)
-
-    if instance.preview_image:
-        if os.path.isfile(instance.preview_image.path):
-            os.remove(instance.preview_image.path)
